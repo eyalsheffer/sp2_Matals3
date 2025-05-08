@@ -1,4 +1,7 @@
 #include "Player.hpp"
+#include "General.hpp"
+#include "Judge.hpp"
+#include "Merchant.hpp"
 #include <iostream>
     Player::Player(std::string name){
         _coins = 0;
@@ -24,31 +27,48 @@
     }
 
     void Player::gather(){
-        if(!sanction)
+        if(!sanction){
             _coins++;
-        
+        }
     }
     void Player::tax(){
-        if(!sanction)
+        if(!sanction){
             _coins+= 2;
+        }
     }
 
     void Player::bribe(){
-        if(_coins > 3)
+        if(_coins > 3){
             _coins-=4;
+        }
 
     }
     void Player::arrest(Player& other){
         _coins++;
         other._coins--;   
-       other._last_arrested = this;
+        other._last_arrested = this;
+        if(dynamic_cast<General*>(&other)){
+            _coins--;
+            other._coins++;
+        }
+        if(dynamic_cast<Merchant*>(&other)){
+            _coins--;
+            other._coins--;
+        }
     }
     void Player::sanction(Player& other){
-        if(_coins > 2)
-            other._is_sanction = true;
+        if(_coins > 2){
             _coins -=3;
+            if(dynamic_cast<Judge*>(&other)){
+                _coins--;
+            }
+            else{
+                other._is_sanction = true;
+            }
+        }
     }
     void Player::coup(Player& other){
-        if(_coins > 6)
+        if(_coins > 6){
             other.~Player();//////
+        }
     }
