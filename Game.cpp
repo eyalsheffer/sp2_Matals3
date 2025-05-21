@@ -3,9 +3,9 @@ Game::Game(){
     _turn = 0;
 }
 Game::~Game(){
-    for(Player* p : _players){
-        delete p;
-    }
+    // for(Player* p : _players){
+    //      p = nullptr;
+    // }
 }
 Game& Game::instance(){
     static Game instance;

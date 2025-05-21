@@ -13,26 +13,32 @@
         _coins = other._coins;
         _name = other._name;
         _is_sanction = other._is_sanction;
-        _last_arrested = other._last_arrested;
+        //_last_arrested = other._last_arrested;
+        _last_arrested = other._last_arrested ? new Player(*other._last_arrested) : nullptr;
     }
     Player::~Player(){
-        delete _last_arrested;
+        // _last_arrested = nullptr;
     }
 
-    Player& Player::operator=(Player& other){
-        _coins = other._coins;
-        _name = other._name;
-        _is_sanction = other._is_sanction;
-        _last_arrested = other._last_arrested;
+    Player& Player::operator=(Player& other) {
+        if (this != &other) {
+            _coins = other._coins;
+            _name = other._name;
+            _is_sanction = other._is_sanction;
+            //delete _last_arrested;
+            _last_arrested = other._last_arrested ? new Player(*other._last_arrested) : nullptr;
+        }
+        return *this;
     }
+    
 
     void Player::gather(){
-        if(!sanction){
+        if(!_is_sanction){
             _coins++;
         }
     }
     void Player::tax(){
-        if(!sanction){
+        if(!_is_sanction){
             _coins+= 2;
         }
     }
